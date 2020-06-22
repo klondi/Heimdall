@@ -30,16 +30,16 @@ namespace Heimdall
 	{
 		private:
 
-			unsigned long totalBytes;
+			hoff_t totalBytes;
 
 		public:
 
-			TotalBytesPacket(unsigned long totalBytes) : SessionSetupPacket(SessionSetupPacket::kTotalBytes)
+			TotalBytesPacket(hoff_t totalBytes) : SessionSetupPacket(SessionSetupPacket::kTotalBytes)
 			{
 				this->totalBytes = totalBytes;
 			}
 
-			unsigned long GetTotalBytes(void) const
+			hoff_t GetTotalBytes(void) const
 			{
 				return (totalBytes);
 			}

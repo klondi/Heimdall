@@ -30,6 +30,7 @@
 #define va_copy(d, s) ((d) = (s))
 #endif
 
+typedef __int64 hoff_t;
 #define FileOpen(FILE, MODE) fopen(FILE, MODE)
 #define FileClose(FILE) fclose(FILE)
 #define FileSeek(FILE, OFFSET, ORIGIN) _fseeki64(FILE, OFFSET, ORIGIN)
@@ -46,6 +47,7 @@
 
 #define Sleep(t) usleep(1000*t)
 
+typedef off_t hoff_t;
 #define FileOpen(FILE, MODE) fopen(FILE, MODE)
 #define FileClose(FILE) fclose(FILE)
 #define FileSeek(FILE, OFFSET, ORIGIN) fseeko(FILE, OFFSET, ORIGIN)

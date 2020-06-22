@@ -34,19 +34,20 @@ namespace Heimdall
 	{
 		public:
 
-			SendFilePartPacket(FILE *file, unsigned long size) : OutboundPacket(size)
+			SendFilePartPacket(FILE *file, size_t size) : OutboundPacket(size)
 			{
 				memset(data, 0, size);
 
-				unsigned long position = (unsigned long)FileTell(file);
+				hoff_t position = FileTell(file);
 
 				FileSeek(file, 0, SEEK_END);
-				unsigned long fileSize = (unsigned long)FileTell(file);
+				hoff_t fileSizeLeft = FileTell(file) - position;
 				FileSeek(file, position, SEEK_SET);
 
 				// min(fileSize, size)
-				unsigned long bytesToRead = (fileSize < size) ? fileSize - position : size;
+				size_t bytesToRead = (fileSizeLeft < (hoff_t) size) ? (size_t) fileSizeLeft : (size_t) size;
 				(void)fread(data, 1, bytesToRead, file);
+				size = bytesToRead;
 			}
 
 			SendFilePartPacket(unsigned char *buffer, unsigned int size) : OutboundPacket(size)

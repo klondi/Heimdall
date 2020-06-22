@@ -1024,7 +1024,7 @@ bool BridgeManager::SendFile(FILE *file, unsigned int destination, unsigned int 
 	}
 
 	FileSeek(file, 0, SEEK_END);
-	unsigned long fileSize = (unsigned long)FileTell(file);
+	hoff_t fileSize = FileTell(file);
 	FileRewind(file);
 
 	ResponsePacket *fileTransferResponse = new ResponsePacket(ResponsePacket::kResponseTypeFileTransfer);
@@ -1037,9 +1037,9 @@ bool BridgeManager::SendFile(FILE *file, unsigned int destination, unsigned int 
 		return (false);
 	}
 
-	unsigned int sequenceCount = fileSize / (fileTransferSequenceMaxLength * fileTransferPacketSize);
+	hoff_t sequenceCount = fileSize / ((hoff_t)fileTransferSequenceMaxLength * (hoff_t)fileTransferPacketSize);
 	unsigned int lastSequenceSize = fileTransferSequenceMaxLength;
-	unsigned int partialPacketByteCount = fileSize % fileTransferPacketSize;
+	unsigned int partialPacketByteCount = fileSize % (hoff_t)fileTransferPacketSize;
 
 	if (fileSize % (fileTransferSequenceMaxLength * fileTransferPacketSize) != 0)
 	{
@@ -1057,7 +1057,7 @@ bool BridgeManager::SendFile(FILE *file, unsigned int destination, unsigned int 
 	unsigned int previousPercent = 0;
 	Interface::Print("0%%");
 
-	for (unsigned int sequenceIndex = 0; sequenceIndex < sequenceCount; sequenceIndex++)
+	for (hoff_t sequenceIndex = 0; sequenceIndex < sequenceCount; sequenceIndex++)
 	{
 		bool isLastSequence = (sequenceIndex == sequenceCount - 1);
 		unsigned int sequenceSize = (isLastSequence) ? lastSequenceSize : fileTransferSequenceMaxLength;
