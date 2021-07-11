@@ -1052,7 +1052,7 @@ bool BridgeManager::SendFile(FILE *file, unsigned int destination, unsigned int 
 			lastSequenceSize++;
 	}
 
-	unsigned long bytesTransferred = 0;
+	hoff_t bytesTransferred = 0;
 	unsigned int currentPercent;
 	unsigned int previousPercent = 0;
 	Interface::Print("0%%");
